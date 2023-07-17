@@ -1,7 +1,7 @@
 # faceitBot
 discord bot that provides faceit stats of a player
 
-#Usage
+# Usage
 /stats `faceit_name`
 
 
