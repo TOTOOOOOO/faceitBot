@@ -13,6 +13,11 @@ const commands = [
             required: true,
         }]
     }
+    ,
+    {
+        name: 'ranking',
+        description: 'Gives top 5 ranked player from Panchester'
+    }
 ];
 
 const rest =  new REST({version: '10'}).setToken(process.env.TOKEN);
@@ -32,40 +37,5 @@ const rest =  new REST({version: '10'}).setToken(process.env.TOKEN);
         console.log(`there was an error ${error}`);
     }
 })();
-
-
-// const dotenv = require('dotenv').config()
-
-// const {
-//     Client,
-//     Intents,
-// } = require('discord.js')
-
-// const client = new Client({
-//     intents: [Intents.FLAGS.GUILDS]
-// });
-
-
-// client.on('ready', () => {
-//     console.log(`Logged in as ${client.user.tag}!`);
-//     client.application.commands.set(
-//         [{
-//             "name" : "stats",
-//             "description" : "Look up Faceit stats", 
-//             "options": [{
-//                 "type": 3,
-//                 "name": "faceitname",
-//                 "description": "The faceit user you want to check",
-//                 "required": true
-//             }]
-//         }]
-//     )
-//     .then(console.log)
-//     .catch(console.error);
-// });
-
-
-// const token = process.env.CLIENT_ID
-// client.log(token)
 
 

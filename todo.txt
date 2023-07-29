@@ -1,0 +1,11 @@
+BUGS TO FIX:
+
+1) bot crashes when there is a faceit account but there is no stats for csgo
+
+
+FEATURES TO ADD:
+
+1) new command /ranking that gives a list of top5 ranked players from a list
+
+
+

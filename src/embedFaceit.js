@@ -21,7 +21,7 @@ async function fStats(name){
     
             if(name === 'andrejicaker')
                 name  = "J0ker32"
-                
+            
             var player = await fr.nickStats(name)
             id = player.player_id
         }
@@ -68,7 +68,6 @@ async function fStats(name){
     
         return embed
     }
-
     catch(e){
         const errembed = new EmbedBuilder()
             .setColor("#ff0000")
@@ -81,7 +80,80 @@ async function fStats(name){
    
 }
 
+const players = ["cyberks", "nex1ck", "1HT-", "N0net1g", "TOTOOOOOO"];
+
+function sortMap(map){
+  return new Map([...map].sort((a, b) => b[1] - a[1]));
+}
+async function ranking(){
+
+    const map = new Map()
+
+
+    for(player of players){
+        console.log(player)
+        var tempPlayer = await fr.nickStats(player)
+        var tempPlayerElo = tempPlayer.games.csgo["faceit_elo"]
+        console.log(tempPlayerElo)
+
+        map.set(player, tempPlayerElo)
+    }
+
+    const sortedMap = sortMap(map) 
+    console.log(sortedMap);
+    
+
+    const embed = new EmbedBuilder()
+                    .setColor('#FF5500')
+                    .setTitle('Top player of Panchester')
+
+    
+    var brojac = 1;
+
+    for(const [player, elo] of sortedMap){
+        
+        if(brojac > 5)
+            break
+        
+        if (brojac == 1){
+            embed.addFields({
+                name: ":first_place:  " +  player + " " + elo.toString(),
+                value: " "
+               })
+   
+        }
+
+        else if (brojac == 2){
+            embed.addFields({
+                name: ":second_place:  " +  player + " " + elo.toString(),
+                value: " "
+               })
+   
+        }
+
+        else if (brojac == 3){
+            embed.addFields({
+                name: ":third_place:  " +  player + " " + elo.toString(),
+                value: " "
+               })
+   
+        }
+
+        else{
+            embed.addFields({
+                name: "  " + brojac.toString() + ". " +  player + " " + elo.toString(),
+                value: " "
+               }) 
+        }
+        
+        brojac += 1
+    }
+
+
+    return embed
+}
 
 module.exports = {
     fStats,
+    ranking,
 }

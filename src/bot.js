@@ -42,17 +42,23 @@ client.on('interactionCreate', async (interaction) => {
         return;
     
     if(interaction.commandName === 'stats'){
-        // interaction.reply('totolina is the best player ever!')
-        // await interaction.deferReply();
         
-        var name = interaction.options.getString('faceitname');
-        var resp = await faceit.fStats(name)
-        
-        console.log(resp);
 
-        interaction.reply({embeds: [resp]});
+        var name = interaction.options.getString('faceitname');
+        await interaction.deferReply();
+
+        var resp = await faceit.fStats(name)
+
+        // console.log(resp);
+
+        interaction.editReply({embeds: [resp]});
     }
 
+    if(interaction.commandName == 'ranking'){
+        await interaction.deferReply();
+        var resp = await faceit.ranking()
+        interaction.editReply({embeds:[resp]})
+    }
 })
 
 client.login(process.env.TOKEN);
