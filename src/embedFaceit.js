@@ -105,7 +105,7 @@ async function ranking(){
 
     const embed = new EmbedBuilder()
                     .setColor('#FF5500')
-                    .setTitle('Top player of Panchester')
+                    .setTitle('Top players of Panchester')
 
     
     var brojac = 1;
