@@ -80,7 +80,7 @@ async function fStats(name){
    
 }
 
-const players = ["cyberks", "nex1ck", "1HT-", "N0net1g", "TOTOOOOOO"];
+const players = ["k0nja","knelele" ,"J0ker32", "nex1ck", "1HT-", "N0net1g", "TOTOOOOOO"];
 
 function sortMap(map){
   return new Map([...map].sort((a, b) => b[1] - a[1]));
@@ -139,11 +139,18 @@ async function ranking(){
    
         }
 
-        else{
+        else if(brojac == 4){
             embed.addFields({
-                name: "  " + brojac.toString() + ". " +  player + " " + elo.toString(),
+                name: ":four:  " +  player + " " + elo.toString(),
                 value: " "
                }) 
+        }
+
+        else if(brojac == 5){
+            embed.addFields({
+                name: ":five:  " + player + " " + elo.toString(),
+                value: " "
+            })
         }
         
         brojac += 1
