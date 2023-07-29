@@ -10,4 +10,5 @@ discord bot that provides faceit stats of a player
 
 /ranking  - lists all the best players in Pancevo
 
-![panchester](https://github.com/TOTOOOOOO/faceitBot/assets/104201793/3c044403-6737-41d6-9c4c-f294901801e1)
+
+![panchester](https://github.com/TOTOOOOOO/faceitBot/assets/104201793/f08cf677-0d79-4167-a869-45cd822b1ad1)
