@@ -35,7 +35,7 @@ async function fStats(name){
         var skill_level = player.games.csgo["skill_level"].toString()
         console.log(skill_level)
         
-        var skill_level_pic = "https://raw.githubusercontent.com/pvhil/FaceItDiscord/master/pictures/level" + skill_level + ".png"
+        var skill_level_pic = "https://github.com/TOTOOOOOO/faceitBot/blob/master/pics/" + skill_level + ".png?raw=true"
     
         
         nick = player.nickname
