@@ -9,7 +9,7 @@ const numbformat = new Intl.NumberFormat();
 
 
 const {
-    MessageEmbed, EmbedBuilder, inlineCode,
+    MessageEmbed, EmbedBuilder, inlineCode, parseResponse,
 } = require('discord.js')
 
 
@@ -22,27 +22,27 @@ async function fStats(name){
             if(name === 'andrejicaker')
                 name  = "J0ker32"
             
+            console.log(name)
             var player = await fr.nickStats(name)
             id = player.player_id
         }
         catch(error){
             console.log(error)
         }
-    
-        var temp = await fr.idStatsCheck(id)
-        var csgoStats = await fr.idStats(temp.player_id)
-        var regiont = await fr.nickStats(temp.nickname)
-        var country =  regiont.country
-        var skill_level = regiont.games.csgo["skill_level"].toString()
+        
+        var csgoStats = await fr.csgoStats(id)
+        var country =  player.country
+        var skill_level = player.games.csgo["skill_level"].toString()
+        console.log(skill_level)
         
         var skill_level_pic = "https://raw.githubusercontent.com/pvhil/FaceItDiscord/master/pictures/level" + skill_level + ".png"
     
-        // console.log(temp)
-    
-        nick = temp.nickname
-        if(temp.nickname === 'J0ker32')
+        
+        nick = player.nickname
+        if(player.nickname === 'J0ker32')
             nick = 'Andrejica ker'
-    
+        
+
         const embed = new EmbedBuilder()
                     .setColor('#FF5500')
                     .setTitle('Stats for ' + nick)
@@ -59,13 +59,22 @@ async function fStats(name){
     
                     {
                         name: "faceit elo",
-                        value: regiont.games.csgo["faceit_elo"].toString(),
+                        value: player.games.csgo["faceit_elo"].toString(),
                         inline: true
+                    },
+                    {
+                        name: "Last 5 games",
+                        value: csgoStats.lifetime["Recent Results"].toString().replaceAll(",", "").replaceAll("0", "❌").replaceAll("1", "🏆").replaceAll("null", ""),
+                        inline:true
                     }
                     )
-    
                     .setAuthor({ name: 'Faceit level', iconURL: skill_level_pic})
-    
+        
+        if(player.avatar === '')
+            embed.setThumbnail('https://github.com/TOTOOOOOO/faceitBot/blob/master/pics/slika.png?raw=true')
+        else
+            embed.setThumbnail(player.avatar)
+
         return embed
     }
     catch(e){
