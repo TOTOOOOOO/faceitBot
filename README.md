@@ -5,7 +5,8 @@ discord bot that provides faceit stats of a player
 /stats `faceit_name`
 
 
-![bot](https://github.com/TOTOOOOOO/faceitBot/assets/104201793/c7c56106-35af-4bc0-97da-a6c778d2c656)
+![bot](https://github.com/TOTOOOOOO/faceitBot/assets/104201793/2a663837-33fa-40e5-9eec-a1fecdc13832)
+
 
 
 /ranking  - lists all the best players in Pancevo
