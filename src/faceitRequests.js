@@ -27,10 +27,10 @@ async function idStatsCheck(x) {
 }
 
 
-async function csgoStats(x) {
+async function cs2Stats(x) {
     return new Promise((resolve, reject) => {
       try {
-        axios.get("https://open.faceit.com/data/v4/players/" + x + "/stats/csgo", {
+        axios.get("https://open.faceit.com/data/v4/players/" + x + "/stats/cs2", {
             headers: {
               'accept': 'application/json',
               'Authorization': 'Bearer ' + ft
@@ -79,6 +79,6 @@ async function nickStats(x) {
 
 module.exports = {
   idStatsCheck,
-  csgoStats,
+  cs2Stats,
   nickStats,
 }
