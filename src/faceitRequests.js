@@ -76,9 +76,53 @@ async function nickStats(x) {
   });
 }
 
+async function getMatchHistory(playerId, limit = 5) {
+    return new Promise((resolve, reject) => {
+        try {
+            axios.get(`https://open.faceit.com/data/v4/players/${playerId}/history?game=cs2&offset=0&limit=${limit}`, {
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': 'Bearer ' + ft
+                }
+            })
+            .then(function (response) {
+                resolve(response.data);
+            })
+            .catch(function (error) {
+                reject("error");
+                console.log(error);
+            });
+        } catch (err) {
+            return "error";
+        }
+    });
+}
 
+async function getMatchDetails(matchId) {
+    return new Promise((resolve, reject) => {
+        try {
+            axios.get(`https://open.faceit.com/data/v4/matches/${matchId}/stats`, {
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': 'Bearer ' + ft
+                }
+            })
+            .then(function (response) {
+                resolve(response.data);
+            })
+            .catch(function (error) {
+                reject("error");
+                console.log(error);
+            });
+        } catch (err) {
+            return "error";
+        }
+    });
+}
 module.exports = {
   idStatsCheck,
   cs2Stats,
   nickStats,
+  getMatchHistory,
+  getMatchDetails,
 }

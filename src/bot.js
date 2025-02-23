@@ -59,6 +59,28 @@ client.on('interactionCreate', async (interaction) => {
         var resp = await faceit.ranking()
         interaction.editReply({embeds:[resp]})
     }
+
+    if(interaction.commandName === 'matches') {
+        const name = interaction.options.getString('faceitname');
+        const count = interaction.options.getInteger('count') || 5;
+        
+        if (count < 1 || count > 20) {
+            return interaction.reply({
+                content: 'Please specify a number between 1 and 20',
+                ephemeral: true
+            });
+        }
+
+        await interaction.deferReply();
+        
+        try {
+            const resp = await faceit.matchHistory(name, count);
+            await interaction.editReply({ embeds: [resp] });
+        } catch (error) {
+            console.error(error);
+            await interaction.editReply('There was an error fetching the match history!');
+        }
+    }
 })
 
 client.login(process.env.TOKEN);

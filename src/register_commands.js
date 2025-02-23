@@ -18,6 +18,25 @@ const commands = [
         name: 'ranking',
         description: 'Gives top 5 ranked player from Panchester'
     }
+    ,
+    {
+        name:'matches',
+        description: 'Show recent match history',
+        options: [
+            {
+                type: 3,
+                name: "faceitname",
+                description: "Player's Faceit username",
+                required: true,
+            },
+            {
+                type: 4,
+                name: "count",
+                description: "Number of matches (1-20)",
+                required: false,
+            }
+        ]
+    }
 ];
 
 const rest =  new REST({version: '10'}).setToken(process.env.TOKEN);

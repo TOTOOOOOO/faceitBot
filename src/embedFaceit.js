@@ -33,7 +33,7 @@ async function fStats(name){
         var cs2Stats = await fr.cs2Stats(id)
         var country =  player.country
         var skill_level = player.games.cs2.skill_level.toString()
-        console.log(skill_level)
+        // console.log(skill_level)
         
         var skill_level_pic = "https://github.com/TOTOOOOOO/faceitBot/blob/master/pics/" + skill_level + ".png?raw=true"
     
@@ -42,13 +42,6 @@ async function fStats(name){
         if(player.nickname === 'J0ker32')
             nick = 'Andrejica ker'
         
-        if (!player.games.cs2) {
-            return new EmbedBuilder()
-                .setColor("#ff0000")
-                .setTitle("No CS2 Stats")
-                .setDescription(`${nick} hasn't played any CS2 matches on Faceit yet!`)
-                .setTimestamp()
-        }
 
         const embed = new EmbedBuilder()
                     .setColor('#FF5500')
@@ -176,7 +169,81 @@ async function ranking(){
     return embed
 }
 
+async function matchHistory(name, count = 5) {
+    try {
+        if (name === 'andrejicaker') 
+            name = "J0ker32";
+        
+        const player = await fr.nickStats(name);
+        const id = player.player_id;
+
+
+        const matches = await fr.getMatchHistory(id, count);
+        // console.log(matches);
+        
+        const embed = new EmbedBuilder()
+            .setColor('#FF5500')
+            .setTitle(`Match History for ${player.nickname}`)
+            .setThumbnail(player.avatar || 'https://github.com/TOTOOOOOO/faceitBot/blob/master/pics/slika.png?raw=true');
+        
+        for (const match of matches.items) {
+            
+            const matchId  = match.match_id;
+            matchDetails = await fr.getMatchDetails(matchId);
+            const allPlayers = [
+                ...matchDetails.rounds[0].teams[0].players,
+                ...matchDetails.rounds[0].teams[1].players
+            ];
+            
+            // Find specific player by ID
+            const playerStats = allPlayers.find(p => p.player_id === id)?.player_stats;
+            const kills =  playerStats.Kills;
+            const deaths =  playerStats.Deaths;
+            const assists =  playerStats.Assists;
+            
+            console.log(playerStats);
+
+            const mapPlayed = matchDetails.rounds[0].round_stats.Map;
+            const score = matchDetails.rounds[0].round_stats.Score;
+
+            // Determine player's team
+            let playerTeam = match.teams.faction1.players.some(p => p.player_id === id) ? 'faction1' : 'faction2';
+            const enemyTeam = playerTeam === 'faction1' ? 'faction2' : 'faction1';
+            
+            // Get player's data from their team
+            const playerData = match.teams[playerTeam].players.find(p => p.player_id === id);
+
+            if (!playerData) continue;
+            
+            // Get match score
+            const won = match.results.winner === playerTeam;
+            
+            
+            // Format match date
+            const matchDate = new Date(match.started_at * 1000).toLocaleDateString();
+            
+            embed.addFields({
+                name: `${won ? '🏆 Win' : '❌ Loss'} | ${matchDate}`,
+                value: `**Map**: ${mapPlayed}\n**Score**: ${score}\n**KDA**: ${kills}/${deaths}/${assists}\n`,
+                inline: false
+            });
+        }
+
+
+    
+        return embed;
+
+    } catch (error) {
+        console.error('Error:', error);
+        return new EmbedBuilder()
+            .setColor("#ff0000")
+            .setTitle("Error fetching match history")
+            .setDescription("Invalid player name or no CS2 matches played!")
+            .setTimestamp();
+    }
+}
 module.exports = {
     fStats,
     ranking,
+    matchHistory,
 }
