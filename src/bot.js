@@ -37,50 +37,54 @@ client.on('ready', (c) => {
 
 
 client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isChatInputCommand()) return;
 
-    if(!interaction.isChatInputCommand()) 
-        return;
-    
-    if(interaction.commandName === 'stats'){
-        
+    await interaction.deferReply(); // Defer reply at the start for all commands
 
-        var name = interaction.options.getString('faceitname');
-        await interaction.deferReply();
-
-        var resp = await faceit.fStats(name)
-
-        // console.log(resp);
-
-        interaction.editReply({embeds: [resp]});
-    }
-
-    if(interaction.commandName == 'ranking'){
-        await interaction.deferReply();
-        var resp = await faceit.ranking()
-        interaction.editReply({embeds:[resp]})
-    }
-
-    if(interaction.commandName === 'matches') {
-        const name = interaction.options.getString('faceitname');
-        const count = interaction.options.getInteger('count') || 5;
-        
-        if (count < 1 || count > 20) {
-            return interaction.reply({
-                content: 'Please specify a number between 1 and 20',
-                ephemeral: true
-            });
+    try {
+        switch (interaction.commandName) {
+            case 'stats':
+                await handleStats(interaction);
+                break;
+            case 'ranking':
+                await handleRanking(interaction);
+                break;
+            case 'matches':
+                await handleMatches(interaction);
+                break;
+            default:
+                await interaction.editReply('Unknown command!');
         }
-
-        await interaction.deferReply();
-        
-        try {
-            const resp = await faceit.matchHistory(name, count);
-            await interaction.editReply({ embeds: [resp] });
-        } catch (error) {
-            console.error(error);
-            await interaction.editReply('There was an error fetching the match history!');
-        }
+    } catch (error) {
+        console.error('Error handling interaction:', error);
+        await interaction.editReply('There was an error processing your request.');
     }
-})
+});
+
+async function handleStats(interaction) {
+    const name = interaction.options.getString('faceitname');
+    const resp = await faceit.fStats(name);
+    await interaction.editReply({ embeds: [resp] });
+}
+
+async function handleRanking(interaction) {
+    const resp = await faceit.ranking();
+    await interaction.editReply({ embeds: [resp] });
+}
+
+async function handleMatches(interaction) {
+    const name = interaction.options.getString('faceitname');
+    const count = interaction.options.getInteger('count') || 5;
+
+    if (count < 1 || count > 20) {
+        return interaction.reply({
+            content: 'Please specify a number between 1 and 20',
+            ephemeral: true,
+        });
+    }
+
+    const resp = await faceit.matchHistory(name, count);
+    await interaction.editReply({ embeds: [resp] });
+}
 
 client.login(process.env.TOKEN);
