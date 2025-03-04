@@ -13,3 +13,8 @@ discord bot that provides faceit stats of a player
 
 
 ![panchester](https://github.com/TOTOOOOOO/faceitBot/assets/104201793/628699f5-5f4c-4aec-97a2-ab2f11e34754)
+
+
+/matches `faceit_name` - lists statistics for last 5 matches of a player
+
+![image](https://github.com/user-attachments/assets/e2fae410-6a42-4863-b211-8ecec63610fd)
